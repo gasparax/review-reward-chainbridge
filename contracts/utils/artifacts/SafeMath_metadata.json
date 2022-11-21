@@ -1,0 +1,46 @@
+{
+	"compiler": {
+		"version": "0.8.11+commit.d7f03943"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"details": "Wrappers over Solidity's arithmetic operations with added overflow checks. note that this is a stripped down version of open zeppelin's safemath https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/math/SafeMath.sol",
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/utils/SafeMath.sol": "SafeMath"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/utils/SafeMath.sol": {
+			"keccak256": "0x65b8112d1858b1d0e65e40377b033f7760ce953fc50961d168aec375c5a60742",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://238a858c15d13e3feaefa990f416f0f39115a39185947947c0c8911019a1f70f",
+				"dweb:/ipfs/QmRoTdfve3QYbvHjv41ZrcQHUeNFy7AW4cADjDo1Xthxah"
+			]
+		}
+	},
+	"version": 1
+}

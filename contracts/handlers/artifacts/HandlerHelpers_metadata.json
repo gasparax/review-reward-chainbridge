@@ -1,0 +1,233 @@
+{
+	"compiler": {
+		"version": "0.8.11+commit.d7f03943"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "bridgeAddress",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "_bridgeAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "_burnList",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "_contractWhitelist",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "_resourceIDToTokenContractAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "_tokenContractAddressToResourceID",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "contractAddress",
+						"type": "address"
+					}
+				],
+				"name": "setBurnable",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "resourceID",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "contractAddress",
+						"type": "address"
+					}
+				],
+				"name": "setResource",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"author": "ChainSafe Systems.",
+			"kind": "dev",
+			"methods": {
+				"constructor": {
+					"params": {
+						"bridgeAddress": "Contract address of previously deployed Bridge."
+					}
+				},
+				"setBurnable(address)": {
+					"params": {
+						"contractAddress": "Address of contract to be used when making or executing deposits."
+					}
+				},
+				"setResource(bytes32,address)": {
+					"params": {
+						"contractAddress": "Address of contract to be called when a deposit is made and a deposited is executed.",
+						"resourceID": "ResourceID to be used when making deposits."
+					}
+				},
+				"withdraw(bytes)": {
+					"params": {
+						"data": "ABI-encoded withdrawal params relevant to the handler."
+					}
+				}
+			},
+			"title": "Function used across handler contracts.",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"setBurnable(address)": {
+					"notice": "First verifies {contractAddress} is whitelisted, then sets {_burnList}[{contractAddress}] to true."
+				},
+				"setResource(bytes32,address)": {
+					"notice": "First verifies {_resourceIDToContractAddress}[{resourceID}] and {_contractAddressToResourceID}[{contractAddress}] are not already set, then sets {_resourceIDToContractAddress} with {contractAddress}, {_contractAddressToResourceID} with {resourceID}, and {_contractWhitelist} to true for {contractAddress}."
+				},
+				"withdraw(bytes)": {
+					"notice": "Withdraw funds from ERC safes."
+				}
+			},
+			"notice": "This contract is intended to be used with the Bridge contract.",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"sygma-solidity/contracts/handlers/HandlerHelpers.sol": "HandlerHelpers"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"sygma-solidity/contracts/handlers/HandlerHelpers.sol": {
+			"keccak256": "0xf3c9052efccc0cb34156e594e61191491c847273308854802d88e85fd130807f",
+			"license": "LGPL-3.0-only",
+			"urls": [
+				"bzz-raw://894174133e2c5af6f5d897fcb476b47d3f8d21e829c21ec389e542ce4201b839",
+				"dweb:/ipfs/QmSx5RychyrVZ51qJcWUs7S6vFHqZ4LncLz1VvpaRdZYeT"
+			]
+		},
+		"sygma-solidity/contracts/interfaces/IERCHandler.sol": {
+			"keccak256": "0x714f0913ed27ed7b98efe1b368a79ae57bb61bbce5b5983f837a0b24dc014649",
+			"license": "LGPL-3.0-only",
+			"urls": [
+				"bzz-raw://1b394cf6f1b2b775207d8401c19701104585f39732e16c0de2f1ad3ff22a757c",
+				"dweb:/ipfs/QmQFY1fPBxjWgswnWMBs3QxcukxS2jQofe7i8VgnCiWhYY"
+			]
+		}
+	},
+	"version": 1
+}

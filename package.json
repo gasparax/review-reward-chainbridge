@@ -1,0 +1,35 @@
+{
+  "name": "review-reward-project",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "hardhat compile",
+    "deploy": "node scripts/deployNewRestaurnat.js",
+    "deploy:poe1": "npx hardhat run scripts/deployContractsSales.js --network poe1",
+    "deploy:poe2": "npx hardhat run scripts/deployContractsReview.js --network poe2",
+    "deploy:poe1New": "npx hardhat run scripts/deployNewSales.js --network poe1",
+    "deploy:poe2New": "npx hardhat run scripts/deployNewReview.js --network poe2",
+    "clean-chains": "gnome-terminal -- bash $HOME/restart-poe1.sh & gnome-terminal -- bash $HOME/restart-poe2.sh",
+    "update-relayers" : "node scripts/relayersHandler.js",
+    "relayers": "cd chainbridge-core-example/ && ./run_relayers.sh",
+    "test:full": "node scripts/testPayment.js",
+    "test": "hardhat coverage"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.1.1",
+    "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@openzeppelin/hardhat-upgrades": "^1.20.0",
+    "chai": "^4.3.6",
+    "ethereum-waffle": "^3.4.4",
+    "ethers": "^5.7.0",
+    "hardhat": "^2.11.0",
+    "solidity-coverage": "^0.7.21"
+  },
+  "dependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^1.0.2",
+    "@openzeppelin/contracts": "^4.7.3"
+  }
+}

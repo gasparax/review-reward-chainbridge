@@ -1,0 +1,55 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "Pausable",
+  "sourceName": "contracts/utils/Pausable.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "Paused",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "Unpaused",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "paused",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b5060008060006101000a81548160ff02191690831515021790555060c5806100396000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c80635c975abb14602d575b600080fd5b60336047565b604051603e91906076565b60405180910390f35b60008060009054906101000a900460ff16905090565b60008115159050919050565b607081605d565b82525050565b6000602082019050608960008301846069565b9291505056fea2646970667358221220d94acb5b936b0db1788ad4dcfd18b0e6be6fe3c24a7c6c4806a628c68f7a644e64736f6c634300080b0033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060285760003560e01c80635c975abb14602d575b600080fd5b60336047565b604051603e91906076565b60405180910390f35b60008060009054906101000a900460ff16905090565b60008115159050919050565b607081605d565b82525050565b6000602082019050608960008301846069565b9291505056fea2646970667358221220d94acb5b936b0db1788ad4dcfd18b0e6be6fe3c24a7c6c4806a628c68f7a644e64736f6c634300080b0033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

@@ -1,0 +1,1600 @@
+{
+	"compiler": {
+		"version": "0.8.11+commit.d7f03943"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "domainID",
+						"type": "uint8"
+					},
+					{
+						"internalType": "address[]",
+						"name": "initialRelayers",
+						"type": "address[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "initialRelayerThreshold",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "fee",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "expiry",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint8",
+						"name": "destinationDomainID",
+						"type": "uint8"
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes32",
+						"name": "resourceID",
+						"type": "bytes32"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint64",
+						"name": "depositNonce",
+						"type": "uint64"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes",
+						"name": "handlerResponse",
+						"type": "bytes"
+					}
+				],
+				"name": "Deposit",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "salesAddress",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "recipient",
+						"type": "address"
+					}
+				],
+				"name": "DiscountEmitted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "bytes",
+						"name": "lowLevelData",
+						"type": "bytes"
+					}
+				],
+				"name": "FailedHandlerExecution",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "Paused",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "reviewAddress",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "recipient",
+						"type": "address"
+					}
+				],
+				"name": "PermissionEmitted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint8",
+						"name": "originDomainID",
+						"type": "uint8"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint64",
+						"name": "depositNonce",
+						"type": "uint64"
+					},
+					{
+						"indexed": false,
+						"internalType": "enum Bridge.ProposalStatus",
+						"name": "status",
+						"type": "uint8"
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes32",
+						"name": "dataHash",
+						"type": "bytes32"
+					}
+				],
+				"name": "ProposalEvent",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint8",
+						"name": "originDomainID",
+						"type": "uint8"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint64",
+						"name": "depositNonce",
+						"type": "uint64"
+					},
+					{
+						"indexed": false,
+						"internalType": "enum Bridge.ProposalStatus",
+						"name": "status",
+						"type": "uint8"
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes32",
+						"name": "dataHash",
+						"type": "bytes32"
+					}
+				],
+				"name": "ProposalVote",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "relayer",
+						"type": "address"
+					}
+				],
+				"name": "RelayerAdded",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "relayer",
+						"type": "address"
+					}
+				],
+				"name": "RelayerRemoved",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "newThreshold",
+						"type": "uint256"
+					}
+				],
+				"name": "RelayerThresholdChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "RoleGranted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "RoleRevoked",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "Unpaused",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "DEFAULT_ADMIN_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "MAX_RELAYERS",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "RELAYER_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"name": "_depositCounts",
+				"outputs": [
+					{
+						"internalType": "uint64",
+						"name": "",
+						"type": "uint64"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "_domainID",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "_expiry",
+				"outputs": [
+					{
+						"internalType": "uint40",
+						"name": "",
+						"type": "uint40"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "_fee",
+				"outputs": [
+					{
+						"internalType": "uint128",
+						"name": "",
+						"type": "uint128"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint72",
+						"name": "destNonce",
+						"type": "uint72"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "dataHash",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "relayer",
+						"type": "address"
+					}
+				],
+				"name": "_hasVotedOnProposal",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "_relayerThreshold",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "_resourceIDToHandlerAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "_resourceIDToReviewsAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "_resourceIDToSalesAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "_totalRelayers",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "relayerAddress",
+						"type": "address"
+					}
+				],
+				"name": "adminAddRelayer",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "newFee",
+						"type": "uint256"
+					}
+				],
+				"name": "adminChangeFee",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "newThreshold",
+						"type": "uint256"
+					}
+				],
+				"name": "adminChangeRelayerThreshold",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "adminPauseTransfers",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "relayerAddress",
+						"type": "address"
+					}
+				],
+				"name": "adminRemoveRelayer",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "handlerAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "adminSetBurnable",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "domainID",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint64",
+						"name": "nonce",
+						"type": "uint64"
+					}
+				],
+				"name": "adminSetDepositNonce",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "forwarder",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "valid",
+						"type": "bool"
+					}
+				],
+				"name": "adminSetForwarder",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "handlerAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "resourceID",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "contractAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes4",
+						"name": "depositFunctionSig",
+						"type": "bytes4"
+					},
+					{
+						"internalType": "uint256",
+						"name": "depositFunctionDepositerOffset",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes4",
+						"name": "executeFunctionSig",
+						"type": "bytes4"
+					}
+				],
+				"name": "adminSetGenericResource",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "handlerAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "resourceID",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "adminSetResource",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "adminUnpauseTransfers",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "handlerAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "adminWithdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "domainID",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint64",
+						"name": "depositNonce",
+						"type": "uint64"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "dataHash",
+						"type": "bytes32"
+					}
+				],
+				"name": "cancelProposal",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "destinationDomainID",
+						"type": "uint8"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "resourceID",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "deposit",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "domainID",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint64",
+						"name": "depositNonce",
+						"type": "uint64"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "resourceID",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bool",
+						"name": "revertOnFail",
+						"type": "bool"
+					}
+				],
+				"name": "executeProposal",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "resourceID",
+						"type": "bytes32"
+					}
+				],
+				"name": "getHandlerByResourceID",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "originDomainID",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint64",
+						"name": "depositNonce",
+						"type": "uint64"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "dataHash",
+						"type": "bytes32"
+					}
+				],
+				"name": "getProposal",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "enum Bridge.ProposalStatus",
+								"name": "_status",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint200",
+								"name": "_yesVotes",
+								"type": "uint200"
+							},
+							{
+								"internalType": "uint8",
+								"name": "_yesVotesTotal",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint40",
+								"name": "_proposedBlock",
+								"type": "uint40"
+							}
+						],
+						"internalType": "struct Bridge.Proposal",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "resourceID",
+						"type": "bytes32"
+					}
+				],
+				"name": "getReviewsAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					}
+				],
+				"name": "getRoleAdmin",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					}
+				],
+				"name": "getRoleMember",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					}
+				],
+				"name": "getRoleMemberCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "getRoleMemberIndex",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "resourceID",
+						"type": "bytes32"
+					}
+				],
+				"name": "getSalesAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "grantRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "hasRole",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "relayer",
+						"type": "address"
+					}
+				],
+				"name": "isRelayer",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "isValidForwarder",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "paused",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newAdmin",
+						"type": "address"
+					}
+				],
+				"name": "renounceAdmin",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "renounceRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "revokeRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_reviewAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "resourceID",
+						"type": "bytes32"
+					}
+				],
+				"name": "setReviewsAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_salesAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "resourceID",
+						"type": "bytes32"
+					}
+				],
+				"name": "setSalesAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address payable[]",
+						"name": "addrs",
+						"type": "address[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "amounts",
+						"type": "uint256[]"
+					}
+				],
+				"name": "transferFunds",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "recipientAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "resourceID",
+						"type": "bytes32"
+					}
+				],
+				"name": "updateDiscountPermission",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "domainID",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint64",
+						"name": "depositNonce",
+						"type": "uint64"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "resourceID",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "voteProposal",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"author": "ChainSafe Systems.",
+			"kind": "dev",
+			"methods": {
+				"_hasVotedOnProposal(uint72,bytes32,address)": {
+					"params": {
+						"dataHash": "Hash of data to be provided when deposit proposal is executed.",
+						"destNonce": "destinationDomainID + depositNonce of the proposal.",
+						"relayer": "Address to check."
+					}
+				},
+				"adminAddRelayer(address)": {
+					"params": {
+						"relayerAddress": "Address of relayer to be added."
+					}
+				},
+				"adminChangeFee(uint256)": {
+					"params": {
+						"newFee": "Value {_fee} will be updated to."
+					}
+				},
+				"adminChangeRelayerThreshold(uint256)": {
+					"params": {
+						"newThreshold": "Value {_relayerThreshold} will be changed to."
+					}
+				},
+				"adminRemoveRelayer(address)": {
+					"params": {
+						"relayerAddress": "Address of relayer to be removed."
+					}
+				},
+				"adminSetBurnable(address,address)": {
+					"params": {
+						"handlerAddress": "Address of handler resource will be set for.",
+						"tokenAddress": "Address of contract to be called when a deposit is made and a deposited is executed."
+					}
+				},
+				"adminSetDepositNonce(uint8,uint64)": {
+					"params": {
+						"domainID": "Domain ID for increasing nonce.",
+						"nonce": "The nonce value to be set."
+					}
+				},
+				"adminSetForwarder(address,bool)": {
+					"params": {
+						"forwarder": "Forwarder address to be added.",
+						"valid": "Decision for the specific forwarder."
+					}
+				},
+				"adminSetGenericResource(address,bytes32,address,bytes4,uint256,bytes4)": {
+					"params": {
+						"contractAddress": "Address of contract to be called when a deposit is made and a deposited is executed.",
+						"handlerAddress": "Address of handler resource will be set for.",
+						"resourceID": "ResourceID to be used when making deposits."
+					}
+				},
+				"adminSetResource(address,bytes32,address)": {
+					"params": {
+						"handlerAddress": "Address of handler resource will be set for.",
+						"resourceID": "ResourceID to be used when making deposits.",
+						"tokenAddress": "Address of contract to be called when a deposit is made and a deposited is executed."
+					}
+				},
+				"adminWithdraw(address,bytes)": {
+					"params": {
+						"data": "ABI-encoded withdrawal params relevant to the specified handler.",
+						"handlerAddress": "Address of handler to withdraw from."
+					}
+				},
+				"cancelProposal(uint8,uint64,bytes32)": {
+					"params": {
+						"dataHash": "Hash of data originally provided when deposit was made.",
+						"depositNonce": "ID of deposited generated by origin Bridge contract.",
+						"domainID": "ID of chain deposit originated from."
+					}
+				},
+				"constructor": {
+					"params": {
+						"domainID": "ID of chain the Bridge contract exists on.",
+						"initialRelayerThreshold": "Number of votes needed for a deposit proposal to be considered passed.",
+						"initialRelayers": "Addresses that should be initially granted the relayer role."
+					}
+				},
+				"deposit(uint8,bytes32,bytes)": {
+					"params": {
+						"data": "Additional data to be passed to specified handler.",
+						"destinationDomainID": "ID of chain deposit will be bridged to.",
+						"resourceID": "ResourceID used to find address of handler to be used for deposit."
+					}
+				},
+				"executeProposal(uint8,uint64,bytes,bytes32,bool)": {
+					"params": {
+						"data": "Data originally provided when deposit was made.",
+						"depositNonce": "ID of deposited generated by origin Bridge contract.",
+						"domainID": "ID of chain deposit originated from.",
+						"resourceID": "ResourceID to be used when making deposits.",
+						"revertOnFail": "Decision if the transaction should be reverted in case of handler's executeProposal is reverted or not."
+					}
+				},
+				"getProposal(uint8,uint64,bytes32)": {
+					"params": {
+						"dataHash": "Hash of data to be provided when deposit proposal is executed.",
+						"depositNonce": "ID of proposal generated by proposal's origin Bridge contract.",
+						"originDomainID": "Chain ID deposit originated from."
+					},
+					"returns": {
+						"_0": "Proposal which consists of: - _dataHash Hash of data to be provided when deposit proposal is executed. - _yesVotes Number of votes in favor of proposal. - _noVotes Number of votes against proposal. - _status Current status of proposal."
+					}
+				},
+				"getRoleAdmin(bytes32)": {
+					"details": "Returns the admin role that controls `role`. See {grantRole} and {revokeRole}. To change a role's admin, use {_setRoleAdmin}."
+				},
+				"getRoleMember(bytes32,uint256)": {
+					"details": "Returns one of the accounts that have `role`. `index` must be a value between 0 and {getRoleMemberCount}, non-inclusive. Role bearers are not sorted in any particular way, and their ordering may change at any point. WARNING: When using {getRoleMember} and {getRoleMemberCount}, make sure you perform all queries on the same block. See the following https://forum.openzeppelin.com/t/iterating-over-elements-on-enumerableset-in-openzeppelin-contracts/2296[forum post] for more information."
+				},
+				"getRoleMemberCount(bytes32)": {
+					"details": "Returns the number of accounts that have `role`. Can be used together with {getRoleMember} to enumerate all bearers of a role."
+				},
+				"getRoleMemberIndex(bytes32,address)": {
+					"details": "Returns the index of the account that have `role`."
+				},
+				"grantRole(bytes32,address)": {
+					"details": "Grants `role` to `account`. If `account` had not been already granted `role`, emits a {RoleGranted} event. Requirements: - the caller must have ``role``'s admin role."
+				},
+				"hasRole(bytes32,address)": {
+					"details": "Returns `true` if `account` has been granted `role`."
+				},
+				"isRelayer(address)": {
+					"params": {
+						"relayer": "Address to check."
+					}
+				},
+				"paused()": {
+					"details": "Returns true if the contract is paused, and false otherwise."
+				},
+				"renounceAdmin(address)": {
+					"params": {
+						"newAdmin": "Address that admin role will be granted to."
+					}
+				},
+				"renounceRole(bytes32,address)": {
+					"details": "Revokes `role` from the calling account. Roles are often managed via {grantRole} and {revokeRole}: this function's purpose is to provide a mechanism for accounts to lose their privileges if they are compromised (such as when a trusted device is misplaced). If the calling account had been granted `role`, emits a {RoleRevoked} event. Requirements: - the caller must be `account`."
+				},
+				"revokeRole(bytes32,address)": {
+					"details": "Revokes `role` from `account`. If `account` had been granted `role`, emits a {RoleRevoked} event. Requirements: - the caller must have ``role``'s admin role."
+				},
+				"transferFunds(address[],uint256[])": {
+					"params": {
+						"addrs": "Array of addresses to transfer {amounts} to.",
+						"amounts": "Array of amonuts to transfer to {addrs}."
+					}
+				},
+				"voteProposal(uint8,uint64,bytes32,bytes)": {
+					"params": {
+						"data": "Data originally provided when deposit was made.",
+						"depositNonce": "ID of deposited generated by origin Bridge contract.",
+						"domainID": "ID of chain deposit originated from."
+					}
+				}
+			},
+			"title": "Facilitates deposits, creation and voting of deposit proposals, and deposit executions.",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"_hasVotedOnProposal(uint72,bytes32,address)": {
+					"notice": "Returns true if {relayer} has voted on {destNonce} {dataHash} proposal.Naming left unchanged for backward compatibility."
+				},
+				"_totalRelayers()": {
+					"notice": "Returns total relayers number.Added for backwards compatibility."
+				},
+				"adminAddRelayer(address)": {
+					"notice": "Grants {relayerAddress} the relayer role.Only callable by an address that currently has the admin role, which is checked in grantRole().Emits {RelayerAdded} event."
+				},
+				"adminChangeFee(uint256)": {
+					"notice": "Changes deposit fee.Only callable by admin."
+				},
+				"adminChangeRelayerThreshold(uint256)": {
+					"notice": "Modifies the number of votes required for a proposal to be considered passed.Only callable by an address that currently has the admin role.Emits {RelayerThresholdChanged} event."
+				},
+				"adminPauseTransfers()": {
+					"notice": "Pauses deposits, proposal creation and voting, and deposit executions.Only callable by an address that currently has the admin role."
+				},
+				"adminRemoveRelayer(address)": {
+					"notice": "Removes relayer role for {relayerAddress}.Only callable by an address that currently has the admin role, which is checked in revokeRole().Emits {RelayerRemoved} event."
+				},
+				"adminSetBurnable(address,address)": {
+					"notice": "Sets a resource as burnable for handler contracts that use the IERCHandler interface.Only callable by an address that currently has the admin role."
+				},
+				"adminSetDepositNonce(uint8,uint64)": {
+					"notice": "Sets the nonce for the specific domainID.Only callable by an address that currently has the admin role."
+				},
+				"adminSetForwarder(address,bool)": {
+					"notice": "Set a forwarder to be used.Only callable by an address that currently has the admin role."
+				},
+				"adminSetGenericResource(address,bytes32,address,bytes4,uint256,bytes4)": {
+					"notice": "Sets a new resource for handler contracts that use the IGenericHandler interface, and maps the {handlerAddress} to {resourceID} in {_resourceIDToHandlerAddress}.Only callable by an address that currently has the admin role."
+				},
+				"adminSetResource(address,bytes32,address)": {
+					"notice": "Sets a new resource for handler contracts that use the IERCHandler interface, and maps the {handlerAddress} to {resourceID} in {_resourceIDToHandlerAddress}.Only callable by an address that currently has the admin role."
+				},
+				"adminUnpauseTransfers()": {
+					"notice": "Unpauses deposits, proposal creation and voting, and deposit executions.Only callable by an address that currently has the admin role."
+				},
+				"adminWithdraw(address,bytes)": {
+					"notice": "Used to manually withdraw funds from ERC safes."
+				},
+				"cancelProposal(uint8,uint64,bytes32)": {
+					"notice": "Cancels a deposit proposal that has not been executed yet.Only callable by relayers when Bridge is not paused.Proposal must be past expiry threshold.Emits {ProposalEvent} event with status {Cancelled}."
+				},
+				"constructor": {
+					"notice": "Initializes Bridge, creates and grants {_msgSender()} the admin role, creates and grants {initialRelayers} the relayer role."
+				},
+				"deposit(uint8,bytes32,bytes)": {
+					"notice": "Initiates a transfer using a specified handler contract.Only callable when Bridge is not paused.Emits {Deposit} event with all necessary parameters and a handler response. - ERC20Handler: responds with an empty data. - ERC721Handler: responds with the deposited token metadata acquired by calling a tokenURI method in the token contract. - GenericHandler: responds with the raw bytes returned from the call to the target contract."
+				},
+				"executeProposal(uint8,uint64,bytes,bytes32,bool)": {
+					"notice": "Executes a deposit proposal that is considered passed using a specified handler contract.Only callable by relayers when Bridge is not paused.Proposal must have Passed status.Hash of {data} must equal proposal's {dataHash}.Emits {ProposalEvent} event with status {Executed}.Emits {FailedExecution} event with the failed reason."
+				},
+				"getProposal(uint8,uint64,bytes32)": {
+					"notice": "Returns a proposal."
+				},
+				"isRelayer(address)": {
+					"notice": "Returns true if {relayer} has the relayer role."
+				},
+				"renounceAdmin(address)": {
+					"notice": "Removes admin role from {_msgSender()} and grants it to {newAdmin}.Only callable by an address that currently has the admin role."
+				},
+				"transferFunds(address[],uint256[])": {
+					"notice": "Transfers eth in the contract to the specified addresses. The parameters addrs and amounts are mapped 1-1. This means that the address at index 0 for addrs will receive the amount (in WEI) from amounts at index 0."
+				},
+				"voteProposal(uint8,uint64,bytes32,bytes)": {
+					"notice": "When called, {_msgSender()} will be marked as voting in favor of proposal.Only callable by relayers when Bridge is not paused.Proposal must not have already been passed or executed.{_msgSender()} must not have already voted on proposal.Emits {ProposalEvent} event with status indicating the proposal status.Emits {ProposalVote} event."
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/Bridge.sol": "Bridge"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts/utils/Address.sol": {
+			"keccak256": "0xd6153ce99bcdcce22b124f755e72553295be6abcd63804cfdffceb188b8bef10",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://35c47bece3c03caaa07fab37dd2bb3413bfbca20db7bd9895024390e0a469487",
+				"dweb:/ipfs/QmPGWT2x3QHcKxqe6gRmAkdakhbaRgx3DLzcakHz5M4eXG"
+			]
+		},
+		"@openzeppelin/contracts/utils/Context.sol": {
+			"keccak256": "0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92",
+				"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3"
+			]
+		},
+		"@openzeppelin/contracts/utils/structs/EnumerableSet.sol": {
+			"keccak256": "0x5050943b32b6a8f282573d166b2e9d87ab7eb4dbba4ab6acf36ecb54fe6995e4",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d4831d777a29ebdf9f2caecd70e74b97bff1b70e53622fd0a02aed01e21c8271",
+				"dweb:/ipfs/QmUqurVVnCc7XkMxb2k23TVQUtuhHZduJ3hTZarTJrqU24"
+			]
+		},
+		"contracts/Bridge.sol": {
+			"keccak256": "0x499ebd3a55b0886b28129b6645a45048b37c789d25649a0a40e739220d7ef71b",
+			"license": "LGPL-3.0-only",
+			"urls": [
+				"bzz-raw://680371e8de4a9bf92bcbe1356898f906e2a24add63e3192e287fd6c04cc568c9",
+				"dweb:/ipfs/Qma1E6h5TPADT6EoZTRQzukZF6HCK412tYTK6yU8D8QrxM"
+			]
+		},
+		"contracts/interfaces/IDepositExecute.sol": {
+			"keccak256": "0x9dbf44c59ac49e6fb30eb0a73fe09d2414ead340dcf3fad943e2eb9cd829dfd0",
+			"license": "LGPL-3.0-only",
+			"urls": [
+				"bzz-raw://8e1d1f522ec200f66fe44b2e16549762b325623339d646cedae9a7378587ed76",
+				"dweb:/ipfs/QmTvuUEAaSxH9UL5xSvdQAoo5R8BGnUxkUfqd2GD6ZmXjA"
+			]
+		},
+		"contracts/interfaces/IERCHandler.sol": {
+			"keccak256": "0x714f0913ed27ed7b98efe1b368a79ae57bb61bbce5b5983f837a0b24dc014649",
+			"license": "LGPL-3.0-only",
+			"urls": [
+				"bzz-raw://1b394cf6f1b2b775207d8401c19701104585f39732e16c0de2f1ad3ff22a757c",
+				"dweb:/ipfs/QmQFY1fPBxjWgswnWMBs3QxcukxS2jQofe7i8VgnCiWhYY"
+			]
+		},
+		"contracts/interfaces/IGenericHandler.sol": {
+			"keccak256": "0xcff7e2654bb9e66d2ae9543b2cfc58174f87487a565a267d795d1be6cae744b8",
+			"license": "LGPL-3.0-only",
+			"urls": [
+				"bzz-raw://c537ed343bf442bd346bbc7cdb60414ab7a7fc6c51a8a087bf0c40e007764287",
+				"dweb:/ipfs/QmXZSyVPtiVXa7CuzqFWbKh2zPwdN1hfC89yTeSPTUgVct"
+			]
+		},
+		"contracts/interfaces/IReviews.sol": {
+			"keccak256": "0x8434937015301f6cc8d0df23a6fe144042931e2d54769b009735cc5280e9b151",
+			"license": "LGPL-3.0-only",
+			"urls": [
+				"bzz-raw://28e912c38e9557d24848c0851025010cc612893b2e4c15f9d497cc574201ef66",
+				"dweb:/ipfs/QmZxn7HhyfvBH8LtNEYJGieGnqAdBt2dfRs7PR4SvXug4V"
+			]
+		},
+		"contracts/interfaces/ISales.sol": {
+			"keccak256": "0xf846414780783ee5087e1994bf64693fb0afef74565354a1571eda164fbc697e",
+			"license": "LGPL-3.0-only",
+			"urls": [
+				"bzz-raw://2c56e2babeec3b2a335fd33d85eb3ae0932e34b99ac5bac66c90887534217a8a",
+				"dweb:/ipfs/QmfAvwKc8gZphRRDd7GDmbdeNtV4nodsW87p6fUp3HWdCo"
+			]
+		},
+		"contracts/utils/AccessControl.sol": {
+			"keccak256": "0x46ee81e56b1cca67473670a3f59fb02ec8abda297fac02c79d705a3442588499",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://40869a99895bc5f746f8b55ab7d20eb4fce323e50540d2d0944e1930f5eea334",
+				"dweb:/ipfs/QmVaCmqGRywSFyqPj1auXmDYQzDFy4uywknXTB3QMLCzkm"
+			]
+		},
+		"contracts/utils/Pausable.sol": {
+			"keccak256": "0x81cb7720cfff2db33fccc8076253b9f6bf5ae2b21d269879ee6a29dde35cc160",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://627e3a22a8ab3fc07177d75f8238ef788a851da8587a8fb263c89a9b4caa287d",
+				"dweb:/ipfs/QmYjeUvcmVTB2QTmxvnxYjBYfMBtHAdVhGktKNNQDZ6m7u"
+			]
+		},
+		"contracts/utils/SafeCast.sol": {
+			"keccak256": "0xe5aee3ed129fc364dffb20234fbc434a775b4336264534de1600eaac6c47b9e3",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2ab5d1af3bdae16e598c86a1559729cbff7a0fcc6b29d1e3e7f986caec1b60e3",
+				"dweb:/ipfs/QmQnxN37QwqaEmorQcUuCqoj79CdJi7nfLnVjwNHQLULu2"
+			]
+		},
+		"contracts/utils/SafeMath.sol": {
+			"keccak256": "0x65b8112d1858b1d0e65e40377b033f7760ce953fc50961d168aec375c5a60742",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://238a858c15d13e3feaefa990f416f0f39115a39185947947c0c8911019a1f70f",
+				"dweb:/ipfs/QmRoTdfve3QYbvHjv41ZrcQHUeNFy7AW4cADjDo1Xthxah"
+			]
+		}
+	},
+	"version": 1
+}

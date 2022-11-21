@@ -1,0 +1,24 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "NoArgument",
+  "sourceName": "contracts/TestContracts.sol",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [],
+      "name": "NoArgumentCalled",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "noArgument",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x6080604052348015600f57600080fd5b5060998061001e6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c8063568959ca14602d575b600080fd5b60336035565b005b7fc582abe1670c5a7f7cad8f171e4af03c793dd9f59fee6714179f56b6e9aea26f60405160405180910390a156fea264697066735822122047ac6aee3efada133d6f2cfdc9c568fc513ded1115e2533e11c9ffb624df9cf964736f6c634300080b0033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060285760003560e01c8063568959ca14602d575b600080fd5b60336035565b005b7fc582abe1670c5a7f7cad8f171e4af03c793dd9f59fee6714179f56b6e9aea26f60405160405180910390a156fea264697066735822122047ac6aee3efada133d6f2cfdc9c568fc513ded1115e2533e11c9ffb624df9cf964736f6c634300080b0033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
