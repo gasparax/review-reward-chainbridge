@@ -58,7 +58,7 @@ async function test() {
         var bill = actualBill.toNumber().toString();
         console.log("New bill to pay -> " + bill);
         console.log("Depoist -> wait for the mining");
-        let depoistTx = await sales.connect(user).deposit({ value: ethers.utils.parseUnits(bill, 'wei')});
+        let depoistTx = await sales.connect(user).payBill({ value: ethers.utils.parseUnits(bill, 'wei')});
         await listnerForTransactionMine(depoistTx, providerSales);
         console.log("Depoist done");
         bridgeReview.on("ProposalEvent", async (originDomainID, depositNonce, status, dataHash) => {

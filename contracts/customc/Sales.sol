@@ -43,7 +43,7 @@ contract Sales is ERC20Safe {
         _;
     }
 
-    function deposit() public payable checkUser {
+    function payBill() public payable checkUser {
         mintERC20(paymentTokenAddr, address(this), 1);
         ERC20PresetMinterPauser(paymentTokenAddr).approve(handlerAddr, 1);
         uint256 addressLenght = 20;
