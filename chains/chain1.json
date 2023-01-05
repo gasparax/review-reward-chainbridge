@@ -1,1 +1,13 @@
-{"resourceIDToken":{"0x9ea1da0f51c20de2db2e9838181d40225e14323de2651ebfb86d959174c3cd9a":"0x3c2661CE688BeC3a22b6987C9BB50F369947D25f"},"resourceIDSales":{"0x9ea1da0f51c20de2db2e9838181d40225e14323de2651ebfb86d959174c3cd9a":"0x6A6B2e0cAa91E8c8b7B46EaF3DF50cbe590D04c1"},"resourceIDReviews":{},"URL":"https://polygon-mumbai.g.alchemy.com/v2/gidifA46QVrxU0_020szSh98hOITklTO","ID":1,"bridgeAddress":"0xA844f7bE9506B8541dCF2341fF67669f987aC9f4","handlerAddress":"0x652a62C04CC22B52cBaD38e6344D56b2BaCA7680"}
+{
+    "resourceIDToken": {
+        "0x9ea1da0f51c20de2db2e9838181d40225e14323de2651ebfb86d959174c3cd9a": "0x3c2661CE688BeC3a22b6987C9BB50F369947D25f"
+    },
+    "resourceIDSales": {
+        "0x9ea1da0f51c20de2db2e9838181d40225e14323de2651ebfb86d959174c3cd9a": "0x6A6B2e0cAa91E8c8b7B46EaF3DF50cbe590D04c1"
+    },
+    "resourceIDReviews": {},
+    "URL": "https://polygon-mumbai.g.alchemy.com/v2/gidifA46QVrxU0_020szSh98hOITklTO",
+    "ID": 1,
+    "bridgeAddress": "0xA844f7bE9506B8541dCF2341fF67669f987aC9f4",
+    "handlerAddress": "0x652a62C04CC22B52cBaD38e6344D56b2BaCA7680"
+}

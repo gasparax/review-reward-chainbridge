@@ -2,10 +2,10 @@
 
 pragma solidity 0.8.11;
 
-import "../ERC20Safe.sol";
+import "@openzeppelin/contracts/token/ERC20/presets/ERC20PresetMinterPauser.sol";
 import "../interfaces/IBridge.sol";
 
-contract Reviews is ERC20Safe {
+contract Reviews {
     mapping(address => uint8) public usersReviews;
     mapping(address => bool) public usersPermissions;
     bytes32 resourceID;
@@ -43,15 +43,15 @@ contract Reviews is ERC20Safe {
     }
 
     modifier permission() {
-        // require(ERC20Safe(permissionTokenAddr).balanceOf(msg.sender) > 0);
+        require(ERC20PresetMinterPauser(permissionTokenAddr).balanceOf(msg.sender) > 0);
         require(usersPermissions[msg.sender] == true);
         _;
     }
 
     function reviewRestaurant(uint8 vote) public payable permission {
         require(vote >= 0 && vote <= 10, "Vote must be a value between 0 and 10");
-        /* ERC20PresetMinterPauser(permissionTokenAddr).burnFrom(msg.sender, 1); */
-        mintERC20(permissionTokenAddr, address(this), reward);
+        ERC20PresetMinterPauser(permissionTokenAddr).burnFrom(msg.sender, 1);
+        ERC20PresetMinterPauser(permissionTokenAddr).mint(address(this), reward);
         ERC20PresetMinterPauser(permissionTokenAddr).approve(
             handlerAddr,
             reward
@@ -101,6 +101,4 @@ contract Reviews is ERC20Safe {
     function getReviewsNumber() public view returns (uint256) {
         return reviewsNumber;
     }
-
-
 }

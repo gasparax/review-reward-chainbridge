@@ -4,6 +4,7 @@ const { getSalesABI } = require("../scripts/contractsABI/SalesABI");
 const { getReviewsABI } = require("../scripts/contractsABI/ReviewsABI");
 const { getBridgeABI } = require("../scripts/contractsABI/BridgeABI");
 const { URL_POE1, URL_POE2, PK_RESTAURANT_1_REVIEW, PK_RESTAURANT_1_SALES, getSigner, PK_ADMIN_SALES } = require("../scripts/constants");
+const { getTokenABI } = require("./contractsABI/TokenABI");
 
 //BLOCKCHAIN FILES
 const BlockChainSales = loadBlockchain("../chains/chain1.json")
@@ -15,12 +16,16 @@ const IDList = Object.keys(BlockChainSales.resourceIDToken);
 const SalesABI = getSalesABI();
 const ReviewABI = getReviewsABI();
 const BridgeABI = getBridgeABI();
+const TokenABI = getTokenABI();
 
 
 const signerPKSales = PK_RESTAURANT_1_SALES;
 const signerPKReview = PK_RESTAURANT_1_REVIEW;
 
 async function test() {
+    const restaurantName = "Branzo";
+    const resourceID = computeResourceID(restaurantName);
+
     // Setup ethers provider and signers
     const providerSales = new ethers.providers.JsonRpcProvider(URL_POE1);
     const providerReview = new ethers.providers.JsonRpcProvider(URL_POE2);
@@ -36,6 +41,10 @@ async function test() {
     const bridgeSales = new ethers.Contract(bridgeSalesAddress, BridgeABI, signerSales);
     const bridgeReviewAddress = BlockChainReview.bridgeAddress;
     const bridgeReview = new ethers.Contract(bridgeReviewAddress, BridgeABI, signerReview);
+    const tokenSalesAddress = BlockChainSales.resourceIDToken[IDList[0]];
+    const tokenReviewsAddress = BlockChainReview.resourceIDToken[IDList[0]];
+    const tokenSales = new ethers.Contract(tokenSalesAddress, TokenABI, signerSales);
+    const tokenReviews = new ethers.Contract(tokenReviewsAddress, TokenABI, signerReview);
 
     // Load the sales and reviews contracts for the ID 0
     const salesAddress = BlockChainSales.resourceIDSales[IDList[0]];
@@ -49,32 +58,36 @@ async function test() {
         console.log("Setting user bill -> wait for the mining");
         await listnerForTransactionMine(setBillTx, providerSales);
         console.log("Bill setted");
-        console.log("Bill to pay: " + startingBill);
+        console.log("Starting to pay: " + startingBill);
+        let actulaDiscount = await sales.connect(user).getDiscount();
         console.log("Check for discount for the account ...")
-        let txDiscountApplication = await sales.connect(user).applyDiscount();
-        await listnerForTransactionMine(txDiscountApplication, providerSales);
-        console.log("Discount applied");
+        let discount = actulaDiscount.toNumber().toString();
+        console.log('Discout ' + discount);
         let actualBill = await sales.connect(user).getBill();
-        var bill = actualBill.toNumber().toString();
-        console.log("New bill to pay -> " + bill);
-        console.log("Depoist -> wait for the mining");
+        let bill = actualBill.toNumber().toString();
+        console.log("After discount check the customer has to pay: " + bill);
+        if (discount > 0) {
+            console.log("Approving -> wait for the mining");
+            let approveTx = await tokenSales.approve(salesAddress, discount);
+            await listnerForTransactionMine(approveTx, providerSales);
+            console.log("Approved for discount token burning");
+        }
+        console.log("Bill Payment -> wait for the mining");
         let depoistTx = await sales.connect(user).payBill({ value: ethers.utils.parseUnits(bill, 'wei')});
         await listnerForTransactionMine(depoistTx, providerSales);
-        console.log("Depoist done");
+        console.log("Bill Payment done");
         bridgeReview.on("ProposalEvent", async (originDomainID, depositNonce, status, dataHash) => {
-            /*             console.log("------------------------Proposal Event REVIEW - PERMISSION-------------------------");
-                        console.log("ORIGIN DOMAIN ID: " + originDomainID);
-                        console.log("Deposit nonce: " + depositNonce.toNumber());
-                        console.log("Status: " + status);
-                        console.log(dataHash);
-                        console.log("---------------------------------------------------------------"); */
             if (status === 3) {
                 console.log("Event emitted - Permission released!");
                 permCheckTx = await reviews.connect(userReview).checkPermission();
                 if (permCheckTx == true) {
                     console.log("Permission is present!");
-                    let votingTx = await reviews.connect(userReview).reviewRestaurant(8);
+                    console.log("Approving -> wait for the mining");
+                    let approveTx = await tokenReviews.approve(reviewsAddress, discount);
+                    await listnerForTransactionMine(approveTx, providerReview);
+                    console.log("Approved for permission token burning");
                     console.log("Voting -> wait for the mining");
+                    let votingTx = await reviews.connect(userReview).reviewRestaurant(8);
                     console.log("Restaurant voted")
                     await listnerForTransactionMine(votingTx, providerReview);
                     console.log("Review released!");
@@ -85,12 +98,6 @@ async function test() {
             }
         })
         bridgeSales.on("ProposalEvent", async (originDomainID, depositNonce, status, dataHash) => {
-            /*             console.log("------------------------Proposal Event SALES - REWARD -------------------------");
-                        console.log("ORIGIN DOMAIN ID: " + originDomainID);
-                        console.log("Deposit nonce: " + depositNonce.toNumber());
-                        console.log("Status: " + status);
-                        console.log(dataHash);
-                        console.log("---------------------------------------------------------------"); */
             if (status === 3) {
                 console.log("Event emitted - Reward released!");
                 console.log(`SECOND RELAYERS EXECUTION took ${endTime - startTime} milliseconds`)
@@ -120,4 +127,3 @@ async function test() {
 }
 
 test();
-

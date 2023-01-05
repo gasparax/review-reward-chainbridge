@@ -3608,8 +3608,8 @@
       ]
     },
     "/home/nunzio/review-reward-thesis/contracts/customc/Sales.sol": {
-      "lastModificationDate": 1669023436941,
-      "contentHash": "fa185d39192d4936717b7e9aecbf1780",
+      "lastModificationDate": 1672951882112,
+      "contentHash": "0b1b4605d0855151f9d1594f3f02546a",
       "sourceName": "contracts/customc/Sales.sol",
       "solcConfig": {
         "version": "0.8.11",
@@ -3636,7 +3636,7 @@
         }
       },
       "imports": [
-        "../ERC20Safe.sol",
+        "@openzeppelin/contracts/token/ERC20/presets/ERC20PresetMinterPauser.sol",
         "../interfaces/IBridge.sol"
       ],
       "versionPragmas": [
@@ -3683,8 +3683,8 @@
       ]
     },
     "/home/nunzio/review-reward-thesis/contracts/customc/Reviews.sol": {
-      "lastModificationDate": 1669023436945,
-      "contentHash": "0cfeae41d4fce51a86ca288a3c8230ba",
+      "lastModificationDate": 1672951909488,
+      "contentHash": "81a10f94536d5dd68e1e3b01f7c86589",
       "sourceName": "contracts/customc/Reviews.sol",
       "solcConfig": {
         "version": "0.8.11",
@@ -3711,7 +3711,7 @@
         }
       },
       "imports": [
-        "../ERC20Safe.sol",
+        "@openzeppelin/contracts/token/ERC20/presets/ERC20PresetMinterPauser.sol",
         "../interfaces/IBridge.sol"
       ],
       "versionPragmas": [

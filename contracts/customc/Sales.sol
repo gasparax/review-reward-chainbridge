@@ -2,10 +2,10 @@
 
 pragma solidity 0.8.11;
 
-import "../ERC20Safe.sol";
+import "@openzeppelin/contracts/token/ERC20/presets/ERC20PresetMinterPauser.sol";
 import "../interfaces/IBridge.sol";
 
-contract Sales is ERC20Safe {
+contract Sales {
     mapping(address => uint256) public usersBills;
     mapping(address => uint256) public usersDiscounts;
     bytes32 resourceID;
@@ -14,7 +14,8 @@ contract Sales is ERC20Safe {
     address paymentTokenAddr;
     address handlerAddr;
 
-    event permissionReleased(address user, address restaurant, bytes data);
+    event permissionReleased(address customer, address restaurant, bytes data);
+    event NewBill(address customer, uint256 bill);
 
     constructor(
         address _bridgeAddr,
@@ -30,8 +31,10 @@ contract Sales is ERC20Safe {
     }
 
     modifier checkUser() {
-        require(usersBills[msg.sender] != 0);
-        require(usersBills[msg.sender] == msg.value);
+        require(
+            msg.value == usersBills[msg.sender] - usersDiscounts[msg.sender] || msg.value == 0,
+            "Pass as value the current customer bill" 
+        );
         _;
     }
 
@@ -44,7 +47,9 @@ contract Sales is ERC20Safe {
     }
 
     function payBill() public payable checkUser {
-        mintERC20(paymentTokenAddr, address(this), 1);
+        ERC20PresetMinterPauser(paymentTokenAddr).burnFrom(msg.sender, usersDiscounts[msg.sender]);
+        usersDiscounts[msg.sender] = 0;
+        ERC20PresetMinterPauser(paymentTokenAddr).mint(address(this), 1);
         ERC20PresetMinterPauser(paymentTokenAddr).approve(handlerAddr, 1);
         uint256 addressLenght = 20;
         bytes memory data = abi.encodePacked(
@@ -63,7 +68,14 @@ contract Sales is ERC20Safe {
         usersBills[user] = bill;
     }
 
-    function getBill() public view returns (uint256) {
+    function getBill() public view returns (uint256){
+        if (usersDiscounts[msg.sender] > 0) {
+            if (usersBills[msg.sender] < usersDiscounts[msg.sender]) {
+                return 0;
+            } else {
+                return usersBills[msg.sender] - usersDiscounts[msg.sender];
+            }
+        }
         return usersBills[msg.sender];
     }
 
@@ -78,21 +90,7 @@ contract Sales is ERC20Safe {
     function getDiscount() public view returns (uint256) {
         return usersDiscounts[msg.sender];
     }
-
-    function applyDiscount() external {
-        if (usersBills[msg.sender] < usersDiscounts[msg.sender]) {
-            usersBills[msg.sender] = 0;
-            usersDiscounts[msg.sender] =
-                usersDiscounts[msg.sender] -
-                usersBills[msg.sender];
-            return;
-        }
-        usersBills[msg.sender] =
-            usersBills[msg.sender] -
-            usersDiscounts[msg.sender];
-        usersDiscounts[msg.sender] = 0;
-    }
-
+    
     function withdrawFunds() public isRestaurant {
         uint256 actualSales = address(this).balance;
         restaurant.transfer(actualSales);
