@@ -1,4 +1,4 @@
-# Review Reward with Chainbridge
+# Multi-Chain rating system with Chainbridge
 Thesis project to build a Restaurant review system on two polygon blockchian linked by Chainbridge.
 
 # Setup - Networks
