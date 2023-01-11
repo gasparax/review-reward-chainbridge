@@ -1,10 +1,10 @@
 const { ethers } = require("hardhat");
-const { listnerForTransactionMine, validateDeploy, saveBlockchain, loadBlockchain, computeResourceID } = require("./helper")
+const { listnerForTransactionMine, validateDeploy, saveBlockchain, loadBlockchain, computeResourceID } = require("../scripts/helper")
 const { getSalesABI } = require("../scripts/contractsABI/SalesABI");
 const { getReviewsABI } = require("../scripts/contractsABI/ReviewsABI");
 const { getBridgeABI } = require("../scripts/contractsABI/BridgeABI");
 const { URL_POE1, URL_POE2, PK_RESTAURANT_1_REVIEW, PK_RESTAURANT_1_SALES, getSigner, PK_ADMIN_SALES } = require("../scripts/constants");
-const { getTokenABI } = require("./contractsABI/TokenABI");
+const { getTokenABI } = require("../scripts/contractsABI/TokenABI");
 
 //BLOCKCHAIN FILES
 const BlockChainSales = loadBlockchain("../chains/chain1.json")
@@ -52,7 +52,8 @@ async function test() {
     const sales = await new ethers.Contract(salesAddress, SalesABI, signerSales);
     const reviews = await new ethers.Contract(reviewsAddress, ReviewABI, signerReview);
     const startingBill = 100;
-    var startTime =  performance.now();;
+    var startTime =  performance.now();
+    //Start the test setting the bill for the customer
     try {
         let setBillTx = await sales.setUserBill(user.address, startingBill);
         console.log("Setting user bill -> wait for the mining");
@@ -66,6 +67,7 @@ async function test() {
         let actualBill = await sales.connect(user).getBill();
         let bill = actualBill.toNumber().toString();
         console.log("After discount check the customer has to pay: " + bill);
+        //Check if the customer has a discount
         if (discount > 0) {
             console.log("Approving -> wait for the mining");
             let approveTx = await tokenSales.approve(salesAddress, discount);
@@ -76,6 +78,7 @@ async function test() {
         let depoistTx = await sales.connect(user).payBill({ value: ethers.utils.parseUnits(bill, 'wei')});
         await listnerForTransactionMine(depoistTx, providerSales);
         console.log("Bill Payment done");
+        //Wait for the relayers to forward the permission token
         bridgeReview.on("ProposalEvent", async (originDomainID, depositNonce, status, dataHash) => {
             if (status === 3) {
                 console.log("Event emitted - Permission released!");
@@ -96,7 +99,9 @@ async function test() {
                     return;
                 }
             }
+            bridgeReview.removeAllListeners();
         })
+        //Wait for the relayers to forward the discount tokens
         bridgeSales.on("ProposalEvent", async (originDomainID, depositNonce, status, dataHash) => {
             if (status === 3) {
                 console.log("Event emitted - Reward released!");
@@ -115,12 +120,13 @@ async function test() {
                     return;
                 }
             }
+            bridgeSales.removeAllListeners();
         })
-        bridgeSales.on("FailedHandlerExecution", async (lowLevelData) => {
+        /*bridgeSales.on("FailedHandlerExecution", async (lowLevelData) => {
             console.log("------------------------FailedHandlerExecution -------------------------");
             console.log(lowLevelData);
             console.log("---------------------------------------------------------------");
-        })
+        }) */
     } catch (error) {
         console.error(error);
     }

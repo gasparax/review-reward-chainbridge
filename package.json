@@ -12,7 +12,7 @@
     "clean-chains": "gnome-terminal -- bash $HOME/restart-poe1.sh & gnome-terminal -- bash $HOME/restart-poe2.sh",
     "update-relayers" : "node scripts/relayersHandler.js",
     "relayers": "cd chainbridge-core-example/ && ./run_relayers.sh",
-    "test:full": "node scripts/testPayment.js",
+    "test:full": "node test/testFull.js",
     "test": "hardhat coverage"
   },
   "keywords": [],

@@ -61,6 +61,31 @@ rm -r -rf test-chain-*/blockchain test-chain-*/trie && rm test-chain-*/consensus
 ```bash
 for i in $(ls default-*.json); do (gnome-terminal --tab -- polygon-edge server --config $i &); done
 ```
+
+# Deploy the Chainbridge and the system contracts
+:bangbang: **IMPORTANT** :bangbang:
+
+**Update the file "templateConstants.js" and rename it in "constants.js"**
+
+After the constats.js file update follow the next instructions.
+
+To deploy the Chainbridge infratructure on the first chain:
+
+`npm run deploy:poe1`
+
+To deploy the Chainbridge infratructure on the second chain:
+
+`npm run deploy:poe2`
+
+To deploy the restaurant contracts on both chains:
+
+`npm run deploy`
+
+To test a full cycle Pay-Permission and then Review-Reward run:
+
+`npm run test:full`
+
+
 # Setup - Relayers
 Intall NodeJS and npm.
 
@@ -128,26 +153,3 @@ Create a configuration file in JSON and save the file in the config folder:
   ]
 }
 ```
-
-# How to run
-**IMPORTANT**
-Update the file "templateConstants.js" and rename it in "constants.js"
-
-After the constats.js file update follow the next instructions.
-
-To deploy the Chainbridge infratructure on the first chain:
-
-`npm run deploy:poe1`
-
-To deploy the Chainbridge infratructure on the second chain:
-
-`npm run deploy:poe2`
-
-To deploy the restaurant contracts on both chains:
-
-`npm run deploy`
-
-To test a full cycle Pay-Permission and then Review-Reward run:
-
-`npm run test:full`
-
